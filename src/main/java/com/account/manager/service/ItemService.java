@@ -70,7 +70,7 @@ public class ItemService {
                 itemMapping.setComment(comment);
                 Item newItem = new Item();
                 newItem = saveNewItem(itemMapping);
-                //accountService.addNewItemToAccont(newItem);
+                accountService.addNewItemToAccount(newItem);
             }
             workbook.close();
             fis.close();
