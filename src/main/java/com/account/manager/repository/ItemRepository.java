@@ -1,0 +1,10 @@
+package com.account.manager.repository;
+
+import com.account.manager.model.Item;
+import org.springframework.data.repository.CrudRepository;
+
+public interface ItemRepository extends CrudRepository<Item, Long> {
+
+
+
+}
