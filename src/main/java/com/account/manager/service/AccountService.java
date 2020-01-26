@@ -13,14 +13,30 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     public Account getAccountById(long id){
-        return accountRepository.findById(id);
+        return accountFindById(id);
     }
 
     public void addNewItemToAccount(Item item){
         Account account = item.getAccount();
+        addItemToAccountItems(account, item);
+        addValueOfItemToAccountBalance(account, item);
+        accountSave(account);
+    }
+
+    private void addItemToAccountItems(Account account, Item item){
         account.getItems().add(item);
+    }
+
+    private void addValueOfItemToAccountBalance(Account account, Item item){
         account.setActualBalance(account.getActualBalance().subtract(item.getCharging()));
         account.setActualBalance(account.getActualBalance().add(item.getCrediting()));
+    }
+
+    private Account accountFindById(long id){
+        return accountRepository.findById(id);
+    }
+
+    private void accountSave(Account account){
         accountRepository.save(account);
     }
 

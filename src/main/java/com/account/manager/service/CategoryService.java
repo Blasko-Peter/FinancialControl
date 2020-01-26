@@ -12,6 +12,10 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category getCategoryById(long id){
+        return categoryFindById(id);
+    }
+
+    private Category categoryFindById(long id){
         return categoryRepository.findById(id);
     }
 

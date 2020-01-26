@@ -28,17 +28,9 @@ public class ItemService {
     @Autowired
     private CategoryService categoryService;
 
-    public Item saveNewItem(ItemMapping itemMapping){
-        Item newItem = new Item();
-        newItem.setActualDate(itemMapping.getActualDate());
-        newItem.setAccount(accountService.getAccountById(itemMapping.getAccountId()));
-        newItem.setPlace(itemMapping.getPlace());
-        newItem.setCity(itemMapping.getCity());
-        newItem.setCategory(categoryService.getCategoryById(itemMapping.getCategoryId()));
-        newItem.setCharging(itemMapping.getCharging());
-        newItem.setCrediting(itemMapping.getCrediting());
-        newItem.setComment(itemMapping.getComment());
-        itemRepository.save(newItem);
+    public Item createNewItem(ItemMapping itemMapping){
+        Item newItem = createNewItemFromItemMapping(itemMapping);
+        saveNewItem(newItem);
         return newItem;
     }
 
@@ -59,17 +51,8 @@ public class ItemService {
                 BigDecimal charging = new BigDecimal(row.getCell(5).getStringCellValue());
                 BigDecimal crediting = new BigDecimal(row.getCell(6).getStringCellValue());
                 String comment = row.getCell(7).getStringCellValue();
-                ItemMapping itemMapping = new ItemMapping();
-                itemMapping.setActualDate(actualDate);
-                itemMapping.setAccountId(accountId);
-                itemMapping.setPlace(place);
-                itemMapping.setCity(city);
-                itemMapping.setCategoryId(categoryId);
-                itemMapping.setCharging(charging);
-                itemMapping.setCrediting(crediting);
-                itemMapping.setComment(comment);
-                Item newItem = new Item();
-                newItem = saveNewItem(itemMapping);
+                ItemMapping newItemMapping = createItemMappingfromSimpleData(actualDate, accountId, place, city, categoryId, charging, crediting, comment);
+                Item newItem = createNewItemFromItemMapping(newItemMapping);
                 accountService.addNewItemToAccount(newItem);
             }
             workbook.close();
@@ -77,6 +60,36 @@ public class ItemService {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
+
+    private ItemMapping createItemMappingfromSimpleData(LocalDate actualDate, long accountId, String place, String city, long categoryId, BigDecimal charging, BigDecimal crediting, String comment){
+        ItemMapping newItemMapping = new ItemMapping();
+        newItemMapping.setActualDate(actualDate);
+        newItemMapping.setAccountId(accountId);
+        newItemMapping.setPlace(place);
+        newItemMapping.setCity(city);
+        newItemMapping.setCategoryId(categoryId);
+        newItemMapping.setCharging(charging);
+        newItemMapping.setCrediting(crediting);
+        newItemMapping.setComment(comment);
+        return newItemMapping;
+    }
+
+    private Item createNewItemFromItemMapping(ItemMapping itemMapping){
+        Item newItem = new Item();
+        newItem.setActualDate(itemMapping.getActualDate());
+        newItem.setAccount(accountService.getAccountById(itemMapping.getAccountId()));
+        newItem.setPlace(itemMapping.getPlace());
+        newItem.setCity(itemMapping.getCity());
+        newItem.setCategory(categoryService.getCategoryById(itemMapping.getCategoryId()));
+        newItem.setCharging(itemMapping.getCharging());
+        newItem.setCrediting(itemMapping.getCrediting());
+        newItem.setComment(itemMapping.getComment());
+        return newItem;
+    }
+
+    private void saveNewItem(Item newItem){
+        itemRepository.save(newItem);
     }
 
 }
