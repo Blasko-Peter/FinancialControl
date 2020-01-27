@@ -34,7 +34,7 @@ public class ItemService {
         return newItem;
     }
 
-    public void importItems(){
+    public void importItemsfromFile(){
         try{
             File excelFile = new File(importURL);
             FileInputStream fis = new FileInputStream(excelFile);
@@ -53,6 +53,7 @@ public class ItemService {
                 String comment = row.getCell(7).getStringCellValue();
                 ItemMapping newItemMapping = createItemMappingfromSimpleData(actualDate, accountId, place, city, categoryId, charging, crediting, comment);
                 Item newItem = createNewItemFromItemMapping(newItemMapping);
+                saveNewItem(newItem);
                 accountService.addNewItemToAccount(newItem);
             }
             workbook.close();
