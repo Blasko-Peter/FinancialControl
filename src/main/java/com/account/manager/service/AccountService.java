@@ -20,6 +20,9 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private ItemService itemService;
+
     public Account getAccountById(long id){
         return accountFindById(id);
     }
@@ -50,6 +53,21 @@ public class AccountService {
         }
     }
 
+    public void loadUpItemsOfAccounts() {
+        List<Account> accounts = accountFindAll();
+        for(Account account : accounts){
+            BigDecimal bigdecimal = new BigDecimal(0);
+            account.setActualBalance(bigdecimal);
+            List<Item> items = itemService.itemFindAllByAccountId(account.getId());
+            for( Item item : items){
+                account.getItems().add(item);
+                account.setActualBalance(account.getActualBalance().subtract(item.getCharging()));
+                account.setActualBalance(account.getActualBalance().add(item.getCrediting()));
+            }
+            accountSave(account);
+        }
+    }
+
     private void addItemToAccountItems(Account account, Item item){
         account.getItems().add(item);
     }
@@ -65,6 +83,10 @@ public class AccountService {
 
     private void accountSave(Account account){
         accountRepository.save(account);
+    }
+
+    private List<Account> accountFindAll(){
+        return accountRepository.findAll();
     }
 
 }

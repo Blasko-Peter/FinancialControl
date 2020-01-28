@@ -11,4 +11,6 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     List<Item> findAll();
 
+    List<Item> findAllByAccountId(long id);
+
 }

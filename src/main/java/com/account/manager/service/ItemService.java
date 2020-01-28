@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -61,6 +62,10 @@ public class ItemService {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    }
+
+    public List<Item> itemFindAllByAccountId(long id) {
+        return itemRepository.findAllByAccountId(id);
     }
 
     private ItemMapping createItemMappingfromSimpleData(LocalDate actualDate, long accountId, String place, String city, long categoryId, BigDecimal charging, BigDecimal crediting, String comment){
