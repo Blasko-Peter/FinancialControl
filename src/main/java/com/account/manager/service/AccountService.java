@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class AccountService {
+
+    private List<String> petersNameOfAccounts = new ArrayList<>(Arrays.asList("Cost Ticket", "Home Cash", "Raiffeisen Bank Card", "Supershop Card"));
 
     @Autowired
     private AccountRepository accountRepository;
@@ -37,6 +40,14 @@ public class AccountService {
         newAccount.setItems(items);
         newAccount.setActualBalance(newBigdecimal);
         accountSave(newAccount);
+    }
+
+    public void createPetersAccounts(){
+        for(String accountName : petersNameOfAccounts){
+            AccountMapping accountMapping = new AccountMapping();
+            accountMapping.setName(accountName);
+            addNewAccount(accountMapping);
+        }
     }
 
     private void addItemToAccountItems(Account account, Item item){
