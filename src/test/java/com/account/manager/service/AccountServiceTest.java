@@ -3,6 +3,7 @@ package com.account.manager.service;
 import com.account.manager.model.Account;
 import com.account.manager.model.Category;
 import com.account.manager.model.Item;
+import com.account.manager.model.mapping.AccountMapping;
 import com.account.manager.repository.AccountRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -65,6 +66,15 @@ public class AccountServiceTest {
         accountService.addNewItemToAccount(newItem);
         Account testAccount = accountRepository.findById(1);
         Assert.assertTrue(testValue.compareTo(testAccount.getActualBalance()) == 0);
+    }
+
+    @Test
+    public void addNewAccountTest(){
+        AccountMapping accountMapping = new AccountMapping();
+        accountMapping.setName("Test Account");
+        accountService.addNewAccount(accountMapping);
+        Account testAccount = accountRepository.findById(2);
+        Assert.assertEquals("Test Account", testAccount.getName());
     }
 
 }

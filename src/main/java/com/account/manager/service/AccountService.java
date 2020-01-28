@@ -36,6 +36,7 @@ public class AccountService {
         newAccount.setActive(true);
         newAccount.setItems(items);
         newAccount.setActualBalance(newBigdecimal);
+        accountSave(newAccount);
     }
 
     private void addItemToAccountItems(Account account, Item item){
