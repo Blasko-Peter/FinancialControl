@@ -60,4 +60,8 @@ public class CategoryService {
         }
     }
 
+    public List<Category> getAllCategories(boolean isActive){
+        return categoryRepository.findAllByIsActive(isActive);
+    }
+
 }

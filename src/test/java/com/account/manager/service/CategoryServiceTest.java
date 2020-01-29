@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class CategoryServiceTest {
@@ -39,7 +41,15 @@ public class CategoryServiceTest {
     @Test
     public void CreateInactiveCategoriesTest(){
         categoryService.createInactiveCategories();
-        Assert.assertEquals("CLOSING BALANCE", categoryRepository.findById(6).getName());
+        Assert.assertEquals("CLOSING BALANCE", categoryRepository.findById(26).getName());
+    }
+
+
+    @Test
+    public void createPetersCategoriesTest(){
+        categoryService.createPetersCategories();
+        List<Category> allCategories = categoryService.getAllCategories(true);
+        Assert.assertEquals(22, allCategories.size());
     }
 
 }
