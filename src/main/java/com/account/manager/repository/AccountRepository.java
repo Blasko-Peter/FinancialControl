@@ -11,4 +11,6 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     List<Account> findAll();
 
+    Account findFirstByName(String name);
+
 }
