@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AccountService {
 
     private List<String> petersNameOfAccounts = new ArrayList<>(Arrays.asList("Cost Ticket", "Home Cash", "Raiffeisen Bank Card", "Supershop Card"));
+    private List<Item> items;
+    private List<Account> accounts;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -27,15 +27,15 @@ public class AccountService {
         return accountFindById(id);
     }
 
-    public void addNewItemToAccount(Item item){
-        Account account = item.getAccount();
-        addItemToAccountItems(account, item);
-        addValueOfItemToAccountBalance(account, item);
-        accountSave(account);
-    }
+    //public void addNewItemToAccount(Item item){
+    //    Account account = item.getAccount();
+    //    addItemToAccountItems(account, item);
+    //    addValueOfItemToAccountBalance(account, item);
+    //    accountSave(account);
+    //}
 
     public void addNewAccount(AccountMapping accountMapping){
-        List<Item> items = new ArrayList<>();
+        items = new ArrayList<>();
         BigDecimal newBigdecimal = new BigDecimal(0.0);
         Account newAccount = new Account();
         newAccount.setName(accountMapping.getName());
@@ -54,15 +54,17 @@ public class AccountService {
     }
 
     public void loadUpItemsOfAccounts() {
-        List<Account> accounts = accountFindAll();
+        items = new ArrayList<>();
+        accounts = new ArrayList<>();
+        accounts = accountFindAll();
         for(Account account : accounts){
             BigDecimal bigdecimal = new BigDecimal(0);
             account.setActualBalance(bigdecimal);
+            account.setItems(items);
             List<Item> items = itemService.itemFindAllByAccountId(account.getId());
             for( Item item : items){
-                account.getItems().add(item);
-                account.setActualBalance(account.getActualBalance().subtract(item.getCharging()));
-                account.setActualBalance(account.getActualBalance().add(item.getCrediting()));
+                addItemToAccountItems(account, item);
+                addValueOfItemToAccountBalance(account, item);
             }
             accountSave(account);
         }
@@ -85,7 +87,7 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    private List<Account> accountFindAll(){
+    public List<Account> accountFindAll(){
         return accountRepository.findAll();
     }
 

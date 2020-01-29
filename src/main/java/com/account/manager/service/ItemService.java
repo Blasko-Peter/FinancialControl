@@ -55,7 +55,7 @@ public class ItemService {
                 ItemMapping newItemMapping = createItemMappingfromSimpleData(actualDate, accountId, place, city, categoryId, charging, crediting, comment);
                 Item newItem = createNewItemFromItemMapping(newItemMapping);
                 saveNewItem(newItem);
-                accountService.addNewItemToAccount(newItem);
+                //accountService.addNewItemToAccount(newItem);
             }
             workbook.close();
             fis.close();
