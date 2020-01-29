@@ -23,33 +23,40 @@ public class CategoryServiceTest {
     private CategoryRepository categoryRepository;
 
     @Test
-    public void getCategoryByIdTest(){
+    public void getCategoryById(){
         Category testCategory = categoryService.getCategoryById(1);
         Assert.assertNotNull(testCategory);
     }
 
     @Test
-    public void addNewCategoryTest(){
+    public void addNewCategory(){
         CategoryMapping newCategoryMapping = new CategoryMapping();
         newCategoryMapping.setName("Test Category 2");
         newCategoryMapping.setType("Charging");
         newCategoryMapping.setIsAvtive(true);
         categoryService.addNewCategory(newCategoryMapping);
-        Assert.assertEquals("Test Category 2", categoryRepository.findById(2).getName());
+        Assert.assertNotNull(categoryRepository.findFirstByName("Test Category 2"));
     }
 
     @Test
-    public void CreateInactiveCategoriesTest(){
+    public void createInactiveCategories(){
         categoryService.createInactiveCategories();
-        Assert.assertEquals("CLOSING BALANCE", categoryRepository.findById(26).getName());
+        Assert.assertNotNull(categoryRepository.findFirstByName("CLOSING BALANCE"));
     }
 
 
     @Test
-    public void createPetersCategoriesTest(){
+    public void createPetersCategories(){
         categoryService.createPetersCategories();
         List<Category> allCategories = categoryService.getAllCategories(true);
-        Assert.assertEquals(22, allCategories.size());
+        Assert.assertNotNull(categoryRepository.findFirstByName("Household"));
+    }
+
+    @Test
+    public void makeCategoriesToCashFlowTest(){
+        List<Category> categoriesToCashFlow = categoryService.makeCategoriesToCashFlow();
+        int numberOfLastCategory = categoriesToCashFlow.size() - 1;
+        Assert.assertEquals("CLOSING BALANCE", categoriesToCashFlow.get(numberOfLastCategory).getName());
     }
 
 }

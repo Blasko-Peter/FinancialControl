@@ -10,4 +10,7 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
     Category findById(long id);
 
     List<Category> findAllByIsActive(boolean isActive);
+
+    Category findFirstByName(String name);
+
 }

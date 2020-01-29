@@ -64,4 +64,29 @@ public class CategoryService {
         return categoryRepository.findAllByIsActive(isActive);
     }
 
+    public List<Category> makeCategoriesToCashFlow(){
+        List<Category> allCategories = new ArrayList<>();
+        List<Category> inactiveCategories = getAllCategories(false);
+        if(inactiveCategories.isEmpty()){
+            createInactiveCategories();
+            inactiveCategories = getAllCategories(false);
+        }
+        List<Category> activeCategories = getAllCategories(true);
+        allCategories.add(inactiveCategories.get(0));
+        allCategories.add(inactiveCategories.get(1));
+        for(Category category : activeCategories){
+            if(category.getType().equals("Crediting")){
+                allCategories.add(category);
+            }
+        }
+        allCategories.add(inactiveCategories.get(2));
+        for(Category category : activeCategories){
+            if(category.getType().equals("Charging")){
+                allCategories.add(category);
+            }
+        }
+        allCategories.add(inactiveCategories.get(3));
+        return allCategories;
+    }
+
 }
