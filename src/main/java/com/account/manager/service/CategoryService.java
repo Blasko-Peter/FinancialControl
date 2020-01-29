@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    private List<String> nameOfInactiveCategories = new ArrayList<>(Arrays.asList("OPENING BALANCE", "REVENUES", "EXPENDITURES", "CLOSING BALANCE");
+    private List<String> nameOfInactiveCategories = new ArrayList<>(Arrays.asList("OPENING BALANCE", "REVENUES", "EXPENDITURES", "CLOSING BALANCE"));
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -27,14 +27,23 @@ public class CategoryService {
     }
 
     public void createInactiveCategories(){
-        
+        for(String nameOfInvalidCategory : nameOfInactiveCategories){
+            CategoryMapping newCategoryMapping = new CategoryMapping();
+            newCategoryMapping.setName(nameOfInvalidCategory);
+            newCategoryMapping.setType("Crediting");
+            newCategoryMapping.setIsAvtive(false);
+        }
     }
 
     public void addNewCategory(CategoryMapping categoryMapping){
         Category newCategory = new Category();
         newCategory.setName(categoryMapping.getName());
         newCategory.setType(categoryMapping.getType());
-        newCategory.setIsActive(true);
+        newCategory.setIsActive(categoryMapping.getIsActive());
+        saveNewCategory(newCategory);
+    }
+
+    private void saveNewCategory(Category newCategory){
         categoryRepository.save(newCategory);
     }
 

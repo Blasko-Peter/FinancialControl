@@ -11,6 +11,7 @@ public class CategoryMapping {
 
     private String name;
     private String type;
+    private boolean isActive;
 
     public String getName() {
         return name;
@@ -26,6 +27,14 @@ public class CategoryMapping {
 
     public void setType(String newType) {
         this.type = newType;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsAvtive(boolean newIsActive) {
+        this.isActive = newIsActive;
     }
 
 }
