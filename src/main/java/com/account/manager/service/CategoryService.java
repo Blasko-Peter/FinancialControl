@@ -1,6 +1,7 @@
 package com.account.manager.service;
 
 import com.account.manager.model.Category;
+import com.account.manager.model.mapping.CategoryMapping;
 import com.account.manager.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,26 +27,16 @@ public class CategoryService {
     }
 
     public void createInactiveCategories(){
-        Category newCategory21 = new Category();
-        newCategory21.setName("OPENING BALANCE");
-        newCategory21.setType("Charging");
-        newCategory21.setIsActive(false);
-        categoryRepository.save(newCategory21);
-        Category newCategory22 = new Category();
-        newCategory22.setName("REVENUES");
-        newCategory22.setType("Charging");
-        newCategory22.setIsActive(false);
-        categoryRepository.save(newCategory22);
-        Category newCategory23 = new Category();
-        newCategory23.setName("EXPENDITURES");
-        newCategory23.setType("Charging");
-        newCategory23.setIsActive(false);
-        categoryRepository.save(newCategory23);
-        Category newCategory24 = new Category();
-        newCategory24.setName("CLOSING BALANCE");
-        newCategory24.setType("Charging");
-        newCategory24.setIsActive(false);
-        categoryRepository.save(newCategory24);
+        
     }
+
+    public void addNewCategory(CategoryMapping categoryMapping){
+        Category newCategory = new Category();
+        newCategory.setName(categoryMapping.getName());
+        newCategory.setType(categoryMapping.getType());
+        newCategory.setIsActive(true);
+        categoryRepository.save(newCategory);
+    }
+
 
 }
