@@ -36,4 +36,10 @@ public class CategoryServiceTest {
         Assert.assertEquals("Test Category 2", categoryRepository.findById(2).getName());
     }
 
+    @Test
+    public void CreateInactiveCategoriesTest(){
+        categoryService.createInactiveCategories();
+        Assert.assertEquals("CLOSING BALANCE", categoryRepository.findById(6).getName());
+    }
+
 }
