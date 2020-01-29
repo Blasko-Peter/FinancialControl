@@ -34,9 +34,22 @@ public class ItemServiceTest {
 
     @Test
     public void itemFindAllByAccountIdTest(){
+        ItemMapping itemMapping = new ItemMapping();
+        itemMapping.setCategoryId(1);
+        itemMapping.setAccountId(1);
+        itemMapping.setCharging(new BigDecimal(0));
+        itemMapping.setCrediting(new BigDecimal(5));
+        Item testItem = itemService.createNewItem(itemMapping);
         List<Item> testItems = new ArrayList<>();
         testItems = itemService.itemFindAllByAccountId(1);
-        Assert.assertEquals(3, testItems.size());
+        Assert.assertNotNull(testItems.size());
+    }
+
+    @Test
+    public void importItemsfromFileTest(){
+        itemService.importItemsfromFile();
+        List<Item> allItems = itemService.itemFindAllByAccountId(3);
+        Assert.assertTrue(allItems.size() > 500);
     }
 
 }

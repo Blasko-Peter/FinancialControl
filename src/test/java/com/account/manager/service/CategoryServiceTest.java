@@ -23,13 +23,13 @@ public class CategoryServiceTest {
     private CategoryRepository categoryRepository;
 
     @Test
-    public void getCategoryById(){
+    public void getCategoryByIdTest(){
         Category testCategory = categoryService.getCategoryById(1);
         Assert.assertNotNull(testCategory);
     }
 
     @Test
-    public void addNewCategory(){
+    public void addNewCategoryTest(){
         CategoryMapping newCategoryMapping = new CategoryMapping();
         newCategoryMapping.setName("Test Category 2");
         newCategoryMapping.setType("Charging");
@@ -39,14 +39,14 @@ public class CategoryServiceTest {
     }
 
     @Test
-    public void createInactiveCategories(){
+    public void createInactiveCategoriesTest(){
         categoryService.createInactiveCategories();
         Assert.assertNotNull(categoryRepository.findFirstByName("CLOSING BALANCE"));
     }
 
 
     @Test
-    public void createPetersCategories(){
+    public void createPetersCategoriesTest(){
         categoryService.createPetersCategories();
         List<Category> allCategories = categoryService.getAllCategories(true);
         Assert.assertNotNull(categoryRepository.findFirstByName("Household"));
