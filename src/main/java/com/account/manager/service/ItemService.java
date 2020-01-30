@@ -1,5 +1,6 @@
 package com.account.manager.service;
 
+import com.account.manager.model.Category;
 import com.account.manager.model.Item;
 import com.account.manager.model.Months;
 import com.account.manager.model.mapping.ItemMapping;
@@ -176,6 +177,70 @@ public class ItemService {
         Map<String, BigDecimal> monthlyBalanceMap = new HashMap<>();
         monthlyBalanceMap = getMonthlyBalanceMap(cumulatedBalance, code);
         return monthlyBalanceMap;
+    }
+
+    public List<List<String>> createCashFlowData(int actualYear){
+        BigDecimal openingBalance = new BigDecimal(0.0);
+        List<Map<String, BigDecimal>> cashFlowMapList = new ArrayList<>();
+        List<Category> allCategories = categoryService.makeCategoriesToCashFlow();
+        for(int i = 1; i < 13; i++){
+            BigDecimal newClosingBalance = new BigDecimal(0.0);
+            Map<String, BigDecimal> basicCashFlowMapList = createBasicCashFlowMapList(allCategories);
+            List<Item> actualItems = getActualMonthlyItems(actualYear, i);
+            Map<String, BigDecimal> loadUpCashFlowMapList = loadUpItemsToBasicCashFlowMap(basicCashFlowMapList, actualItems);
+            loadUpCashFlowMapList.put("OPENING BALANCE", openingBalance);
+            newClosingBalance = (loadUpCashFlowMapList.get("REVENUES").subtract(loadUpCashFlowMapList.get("EXPENDITURES"))).add(openingBalance);
+            loadUpCashFlowMapList.put("CLOSING BALANCE", newClosingBalance);
+            openingBalance = newClosingBalance;
+            cashFlowMapList.add(loadUpCashFlowMapList);
+        }
+        List<List<String>> cashFlowData = createCashFlowDataRows(allCategories, cashFlowMapList);
+        return cashFlowData;
+    }
+
+    private Map<String, BigDecimal> createBasicCashFlowMapList(List<Category> allCategories){
+        Map<String, BigDecimal> cashFlowMap = new HashMap<>();
+        for(Category category : allCategories){
+            BigDecimal basicValue = new BigDecimal(0.0);
+            cashFlowMap.put(category.getName(), basicValue);
+        }
+        return cashFlowMap;
+    }
+
+    private Map<String, BigDecimal> loadUpItemsToBasicCashFlowMap(Map<String, BigDecimal> basicCashFlowMap, List<Item> actualItems){
+        BigDecimal revenue = new BigDecimal(0.0);
+        BigDecimal expenditure = new BigDecimal(0.0);
+        for(Item item : actualItems){
+            if(item.getCategory().getType().equals("Crediting")){
+                BigDecimal sumCrediting = new BigDecimal(0.0);
+                sumCrediting = basicCashFlowMap.get(item.getCategory().getName()).add(item.getCrediting());
+                basicCashFlowMap.put(item.getCategory().getName(), sumCrediting);
+                revenue = revenue.add(item.getCrediting());
+            } else {
+                BigDecimal sumCharging = new BigDecimal(0.0);
+                sumCharging = basicCashFlowMap.get(item.getCategory().getName()).add(item.getCharging());
+                basicCashFlowMap.put(item.getCategory().getName(), sumCharging);
+                expenditure = expenditure.add(item.getCharging());
+            }
+        }
+        basicCashFlowMap.put("REVENUES", revenue);
+        basicCashFlowMap.put("EXPENDITURES", expenditure);
+        return basicCashFlowMap;
+    }
+
+    private List<List<String>> createCashFlowDataRows(List<Category> allCategories, List<Map<String, BigDecimal>> cashFlowMapList){
+        List<List<String>> cashFlowData = new ArrayList<>();
+        for(Category category : allCategories){
+            List<String> row = new ArrayList<>();
+            row.add(category.getName());
+            for(int j = 0; j < cashFlowMapList.size(); j++){
+                BigDecimal bd = cashFlowMapList.get(j).get(category.getName());
+                String bdString = String.valueOf(bd);
+                row.add(bdString);
+            }
+            cashFlowData.add(row);
+        }
+        return cashFlowData;
     }
 
 }
