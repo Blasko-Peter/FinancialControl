@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,7 +57,6 @@ public class ItemService {
                 ItemMapping newItemMapping = createItemMappingfromSimpleData(actualDate, accountId, place, city, categoryId, charging, crediting, comment);
                 Item newItem = createNewItemFromItemMapping(newItemMapping);
                 saveNewItem(newItem);
-                //accountService.addNewItemToAccount(newItem);
             }
             workbook.close();
             fis.close();
@@ -96,6 +97,43 @@ public class ItemService {
 
     private void saveNewItem(Item newItem){
         itemRepository.save(newItem);
+    }
+
+    public List<Item> getActualMonthlyItems(int actualYear, int actualMonth){
+        List<LocalDate> allDaysInActualMonth = new ArrayList<>();
+        allDaysInActualMonth = getAllDaysInActualMonth(actualYear, actualMonth);
+        List<Item> items = new ArrayList<>();
+        items = getAllItemsInActualMonth(allDaysInActualMonth);
+        return items;
+    }
+
+    private List<LocalDate> getAllDaysInActualMonth(int actualYear, int actualMonth){
+        List<LocalDate> dates = new ArrayList<>();
+        String actualDate = actualYear + "-";
+        if(actualMonth < 10){
+            actualDate += "0" + actualMonth;
+        } else {
+            actualDate += actualMonth;
+        }
+        for(int i = 1; i < 32; i++){
+            String newDate = actualDate + "-";
+            if(i < 10){
+                newDate += "0" + i;
+            } else {
+                newDate += i;
+            }
+            try {
+                LocalDate ld = LocalDate.parse(newDate);
+                dates.add(ld);
+            } catch (DateTimeException ex) {
+                continue;
+            }
+        }
+        return dates;
+    }
+
+    private List<Item> getAllItemsInActualMonth(List<LocalDate> allDaysInActualMonth){
+        return itemRepository.findAllByActualDateIn(allDaysInActualMonth);
     }
 
 }
