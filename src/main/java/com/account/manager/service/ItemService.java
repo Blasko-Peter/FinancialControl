@@ -166,4 +166,16 @@ public class ItemService {
         return createMap;
     }
 
+    public Map<String, BigDecimal> createCumulatedBalanceMap(List<BigDecimal> monthlyBalance, String code){
+        List<BigDecimal> cumulatedBalance = new ArrayList<>();
+        BigDecimal cumulatedData = new BigDecimal(0);
+        for(BigDecimal monthlyData : monthlyBalance){
+            cumulatedData = cumulatedData.add(monthlyData);
+            cumulatedBalance.add(cumulatedData);
+        }
+        Map<String, BigDecimal> monthlyBalanceMap = new HashMap<>();
+        monthlyBalanceMap = getMonthlyBalanceMap(cumulatedBalance, code);
+        return monthlyBalanceMap;
+    }
+
 }
