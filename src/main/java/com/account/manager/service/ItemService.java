@@ -1,6 +1,7 @@
 package com.account.manager.service;
 
 import com.account.manager.model.Item;
+import com.account.manager.model.Months;
 import com.account.manager.model.mapping.ItemMapping;
 import com.account.manager.repository.ItemRepository;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,7 +16,9 @@ import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ItemService {
@@ -134,6 +137,33 @@ public class ItemService {
 
     private List<Item> getAllItemsInActualMonth(List<LocalDate> allDaysInActualMonth){
         return itemRepository.findAllByActualDateIn(allDaysInActualMonth);
+    }
+
+    private List<BigDecimal> createMonthlyBalance(int actualYear) {
+        List<BigDecimal> values = new ArrayList<>();
+        for(int i = 1; i < 13; i++){
+            BigDecimal balance = new BigDecimal(0);
+            List<Item> items = new ArrayList<>();
+            items = getActualMonthlyItems(actualYear, i);
+            for(Item item : items){
+                balance = balance.subtract(item.getCharging());
+                balance = balance.add(item.getCrediting());
+            }
+            values.add(balance);
+        }
+        return values;
+    }
+
+    public Map<String, BigDecimal> getMonthlyBalanceMap(int actualYear, String code){
+        List<BigDecimal> monthlyValues = new ArrayList<>();
+        monthlyValues = createMonthlyBalance(actualYear);
+        Map<String, BigDecimal> createMap = new HashMap<>();
+        for(int i = 0; i < 12; i++){
+            String key = "";
+            key += Months.fromId(i + 1) + code;
+            createMap.put(key, monthlyValues.get(i));
+        }
+        return createMap;
     }
 
 }
