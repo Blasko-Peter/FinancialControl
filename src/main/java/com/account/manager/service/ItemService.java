@@ -139,7 +139,7 @@ public class ItemService {
         return itemRepository.findAllByActualDateIn(allDaysInActualMonth);
     }
 
-    private List<BigDecimal> createMonthlyBalance(int actualYear) {
+    public Map<String, BigDecimal> createMonthlyBalanceMap(int actualYear, String code) {
         List<BigDecimal> values = new ArrayList<>();
         for(int i = 1; i < 13; i++){
             BigDecimal balance = new BigDecimal(0);
@@ -151,12 +151,12 @@ public class ItemService {
             }
             values.add(balance);
         }
-        return values;
+        Map<String, BigDecimal> monthlyBalanceMap = new HashMap<>();
+        monthlyBalanceMap = getMonthlyBalanceMap(values, code);
+        return monthlyBalanceMap;
     }
 
-    public Map<String, BigDecimal> getMonthlyBalanceMap(int actualYear, String code){
-        List<BigDecimal> monthlyValues = new ArrayList<>();
-        monthlyValues = createMonthlyBalance(actualYear);
+    private Map<String, BigDecimal> getMonthlyBalanceMap(List<BigDecimal> monthlyValues, String code){
         Map<String, BigDecimal> createMap = new HashMap<>();
         for(int i = 0; i < 12; i++){
             String key = "";
