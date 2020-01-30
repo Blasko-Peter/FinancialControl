@@ -172,4 +172,10 @@ public class ItemServiceTest {
         Assert.assertEquals(testValue, testMonthlyBalanceMap.get("decemberCB"));
     }
 
+    @Test
+    public void createCashFlowDataTest(){
+        List<List<String>> testCashFlowData = itemService.createCashFlowData(2019);
+        Assert.assertEquals(13, testCashFlowData.get(0).size());
+    }
+
 }
