@@ -148,4 +148,11 @@ public class ViewController {
         return "actualDate";
     }
 
+    @GetMapping(value = "/setting/{settingYear}/{settingMonth}")
+    public String settingYearAndMonth(@PathVariable("settingYear") Integer settingYear, @PathVariable("settingMonth") Integer settingMonth){
+        actualYear = settingYear;
+        actualMonth = settingMonth;
+        return "redirect:/";
+    }
+
 }
