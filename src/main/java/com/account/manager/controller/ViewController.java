@@ -91,15 +91,21 @@ public class ViewController {
         return "index";
     }
 
-    @GetMapping(value = "/import-peters-account")
+    @GetMapping(value = "/import-peters-accounts")
     public String importAccounts(){
         accountService.createPetersAccounts();
         return "redirect:/";
     }
 
-    @GetMapping(value = "/import-peters-category")
+    @GetMapping(value = "/import-peters-categories")
     public String importCategories(){
         categoryService.createPetersCategories();
+        return "redirect:/";
+    }
+
+    @GetMapping(value = "/import-items-from-file")
+    public String importDataFromFile(){
+        itemService.importItemsfromFile();
         return "redirect:/";
     }
 

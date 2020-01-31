@@ -20,7 +20,7 @@ public class Item {
     private long id;
     private LocalDate actualDate;
     @ManyToOne
-    @JoinColumn(name = "accountId", nullable = false)
+    @JoinColumn(name = "accountId", nullable = true)
     private Account account;
     private String place;
     private String city;
