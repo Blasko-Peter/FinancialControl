@@ -208,4 +208,28 @@ public class ItemServiceTest {
         Assert.assertEquals("Crediting", types.get(1));
     }
 
+    @Test
+    public void listOfMonthTest_1(){
+        List<String> months = itemService.listOfMonth();
+        Assert.assertEquals(12, months.size());
+    }
+
+    @Test
+    public void listOfMonthTest_2(){
+        List<String> months = itemService.listOfMonth();
+        Assert.assertEquals("january", months.get(0));
+    }
+
+    @Test
+    public void listOfMonthTest_3(){
+        List<String> months = itemService.listOfMonth();
+        Assert.assertEquals("december", months.get(11));
+    }
+
+    @Test
+    public void listOfMonthTest_4(){
+        List<String> months = itemService.listOfMonth();
+        Assert.assertEquals("march", months.get(2));
+    }
+
 }
