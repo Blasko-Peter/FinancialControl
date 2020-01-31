@@ -137,4 +137,15 @@ public class ViewController {
         return "edit";
     }
 
+    @GetMapping(value = "/actual-date-setting")
+    public String settingActualDate(Model model){
+        List<String> months = new ArrayList<>();
+        months = itemService.listOfMonth();
+        List<Integer> years = new ArrayList<>();
+        years = itemService.listOfYear();
+        model.addAttribute("months", months);
+        model.addAttribute("years", years);
+        return "actualDate";
+    }
+
 }
