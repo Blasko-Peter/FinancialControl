@@ -97,4 +97,10 @@ public class ViewController {
         return "redirect:/";
     }
 
+    @GetMapping(value = "/import-peters-category")
+    public String importCategories(){
+        categoryService.createPetersCategories();
+        return "redirect:/";
+    }
+
 }
