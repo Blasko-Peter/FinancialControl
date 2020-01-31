@@ -23,6 +23,7 @@ public class ViewController {
 
     private int actualYear = LocalDate.now().getYear();
     private int actualMonth = LocalDate.now().getMonth().getValue();
+    private List<Category> inActiveCategories;
     private Map<String, BigDecimal> monthlyBalanceMap;
     private Map<String, BigDecimal> cumulatedBalanceMap;
     private List<Account> accounts;
@@ -43,6 +44,11 @@ public class ViewController {
 
     @GetMapping(value = "/")
     public String index(Model model) {
+        inActiveCategories = categoryService.getAllCategories(false);
+        if(inActiveCategories.isEmpty()){
+            categoryService.createInactiveCategories();
+            inActiveCategories = categoryService.getAllCategories(false);
+        }
         accountService.loadUpItemsOfAccounts();
         monthlyBalanceMap = new HashMap<>();
         monthlyBalanceMap = itemService.createMonthlyBalanceMap(actualYear, "MB");
