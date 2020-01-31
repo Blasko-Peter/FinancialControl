@@ -9,6 +9,7 @@ import com.account.manager.service.AccountService;
 import com.account.manager.service.CategoryService;
 import com.account.manager.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,12 @@ public class DataController {
     @PostMapping(value = "/delete-item")
     public String deleteItem(@RequestBody IdMapping idMapping){
         itemService.deleteItemById(idMapping.getId());
+        return "Success";
+    }
+
+    @PostMapping(value = "/edit-item/{id}")
+    public String editItem(@RequestBody ItemMapping itemMapping, @PathVariable("id") Long id){
+        itemService.updateItem(itemMapping, id);
         return "Success";
     }
 
