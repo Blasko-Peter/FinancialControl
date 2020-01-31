@@ -85,3 +85,27 @@ function showDangerModal(){
 function closeDangerModal(){
      $('#dangerModal').modal('hide');
 }
+
+function deleteRow(){
+    let deleteButtons = document.getElementsByClassName("delete-button");
+    for(let deleteButton of deleteButtons){
+            deleteButton.addEventListener("click", function () {
+                let id = deleteButton.getAttribute("id");
+                let sendingData = {id: id};
+                fetch( "/delete-item", {
+                    body: JSON.stringify(sendingData),
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                }).then(response => response.text())
+                  .then((body) => {
+                     let answer = body;
+                     console.log(answer);
+                     location.reload();
+                  });
+            });
+    };
+}
+
+deleteRow();
