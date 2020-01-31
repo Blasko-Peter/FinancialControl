@@ -232,4 +232,24 @@ public class ItemServiceTest {
         Assert.assertEquals("march", months.get(2));
     }
 
+    @Test
+    public void listOfYearTest_1(){
+        List<Integer> years = itemService.listOfYear();
+        Assert.assertEquals(20, years.size());
+    }
+
+    @Test
+    public void listOfYearTest_2(){
+        List<Integer> years = itemService.listOfYear();
+        Integer testYear = 2016;
+        Assert.assertEquals(testYear, years.get(0));
+    }
+
+    @Test
+    public void listOfYearTest_3(){
+        List<Integer> years = itemService.listOfYear();
+        Integer testYear = 2035;
+        Assert.assertEquals(testYear, years.get(19));
+    }
+
 }
