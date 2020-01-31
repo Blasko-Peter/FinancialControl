@@ -85,4 +85,10 @@ public class ViewController {
         return "index";
     }
 
+    @GetMapping(value = "/import-peters-account")
+    public String importAccounts(){
+        accountService.createPetersAccounts();
+        return "redirect:/";
+    }
+
 }
