@@ -3,6 +3,7 @@ package com.account.manager.controller;
 import com.account.manager.model.Item;
 import com.account.manager.model.mapping.AccountMapping;
 import com.account.manager.model.mapping.CategoryMapping;
+import com.account.manager.model.mapping.IdMapping;
 import com.account.manager.model.mapping.ItemMapping;
 import com.account.manager.service.AccountService;
 import com.account.manager.service.CategoryService;
@@ -39,6 +40,12 @@ public class DataController {
     @PostMapping(value = "/add-new-item-data")
     public String createNewItem(@RequestBody ItemMapping itemMapping){
         Item newItem = itemService.createNewItem(itemMapping);
+        return "Success";
+    }
+
+    @PostMapping(value = "/delete-item")
+    public String deleteItem(@RequestBody IdMapping idMapping){
+        itemService.deleteItemById(idMapping.getId());
         return "Success";
     }
 
