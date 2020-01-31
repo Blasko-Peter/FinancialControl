@@ -155,4 +155,10 @@ public class ViewController {
         return "redirect:/";
     }
 
+    @GetMapping(value = "/export-data")
+    public String exportAllItems(){
+        itemService.exportData();
+        return "redirect:/";
+    }
+
 }
