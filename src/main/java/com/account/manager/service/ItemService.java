@@ -26,6 +26,8 @@ import java.util.Map;
 public class ItemService {
 
     private static String importURL = "/Users/blaskopeter/Downloads/Export Data.xlsx";
+    private static int startYear = 2016;
+    private static int endYear = 2035;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -261,6 +263,14 @@ public class ItemService {
             months.add(month);
         }
         return months;
+    }
+
+    public List<Integer> listOfYear(){
+        List<Integer> years = new ArrayList<>();
+        for(int i = startYear; i < endYear + 1; i++){
+            years.add(i);
+        }
+        return years;
     }
 
 
