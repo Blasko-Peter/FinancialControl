@@ -7,6 +7,9 @@ import com.account.manager.model.Types;
 import com.account.manager.model.mapping.ItemMapping;
 import com.account.manager.repository.ItemRepository;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -25,7 +29,8 @@ import java.util.Map;
 @Service
 public class ItemService {
 
-    private static String importURL = "/Users/blaskopeter/Downloads/Export Data.xlsx";
+    private static String importPath = "/Users/blaskopeter/Downloads/Export Data.xlsx";
+    private static String exportPath = "/Users/blaskopeter/Downloads/Export New Data.xlsx";
     private static int startYear = 2016;
     private static int endYear = 2035;
 
@@ -46,7 +51,7 @@ public class ItemService {
 
     public void importItemsfromFile(){
         try{
-            File excelFile = new File(importURL);
+            File excelFile = new File(importPath);
             FileInputStream fis = new FileInputStream(excelFile);
             XSSFWorkbook workbook = new XSSFWorkbook(fis);
             XSSFSheet sheet = workbook.getSheetAt(0);
@@ -292,6 +297,51 @@ public class ItemService {
         updateItem.setCrediting(itemMapping.getCrediting());
         updateItem.setComment(itemMapping.getComment());
         saveNewItem(updateItem);
+    }
+
+    public void exportData() {
+        List<Item> items = new ArrayList<>();
+        items = itemRepository.findAll();
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("items");
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("ID");
+        headerRow.createCell(1).setCellValue("DATE");
+        headerRow.createCell(2).setCellValue("ACCOUNT-ID");
+        headerRow.createCell(3).setCellValue("ACCOUNT");
+        headerRow.createCell(4).setCellValue("PLACE");
+        headerRow.createCell(5).setCellValue("CITY");
+        headerRow.createCell(6).setCellValue("CATEGORY-ID");
+        headerRow.createCell(7).setCellValue("CATEGORY");
+        headerRow.createCell(8).setCellValue("CHARGING");
+        headerRow.createCell(9).setCellValue("CREDITING");
+        headerRow.createCell(10).setCellValue("COMMENT");
+
+        int rowNum = 1;
+        for(Item item : items) {
+            XSSFRow row = (XSSFRow) sheet.createRow(rowNum);
+            row.createCell(0).setCellValue(item.getId());
+            row.createCell(1).setCellValue(item.getActualDate().toString());
+            row.createCell(2).setCellValue(item.getAccount().getId());
+            row.createCell(3).setCellValue(item.getAccount().getName());
+            row.createCell(4).setCellValue(item.getPlace());
+            row.createCell(5).setCellValue(item.getCity());
+            row.createCell(6).setCellValue(item.getCategory().getId());
+            row.createCell(7).setCellValue(item.getCategory().getName());
+            row.createCell(8).setCellValue(item.getCharging().toString());
+            row.createCell(9).setCellValue(item.getCrediting().toString());
+            row.createCell(10).setCellValue(item.getComment());
+            rowNum++;
+        }
+
+        try{
+            FileOutputStream fileOut = new FileOutputStream(exportPath);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
 }
