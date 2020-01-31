@@ -173,9 +173,21 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void createCashFlowDataTest(){
+    public void createCashFlowDataTest_1(){
         List<List<String>> testCashFlowData = itemService.createCashFlowData(2019);
         Assert.assertEquals(13, testCashFlowData.get(0).size());
+    }
+
+    @Test
+    public void createCashFlowDataTest_2(){
+        List<List<String>> testCashFlowData = itemService.createCashFlowData(2019);
+        Assert.assertEquals("OPENING BALANCE", testCashFlowData.get(0).get(0));
+    }
+
+    @Test
+    public void createCashFlowDataTest_3(){
+        List<List<String>> testCashFlowData = itemService.createCashFlowData(2019);
+        Assert.assertEquals("CLOSING BALANCE", testCashFlowData.get(testCashFlowData.size() - 1).get(0));
     }
 
 }
