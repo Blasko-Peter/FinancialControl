@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -298,6 +299,45 @@ public class ItemServiceTest {
         Item testItem = itemService.createNewItem(itemMapping);
         itemService.deleteItemById(1);
         Assert.assertNull(itemService.getItemById(1));
+    }
+
+    @Test
+    public void updateItemTest(){
+        AccountMapping accountMapping = new AccountMapping();
+        accountMapping.setName("Test Account 11");
+        accountService.addNewAccount(accountMapping);
+        CategoryMapping newCategoryMapping = new CategoryMapping();
+        newCategoryMapping.setName("Test Category 11");
+        newCategoryMapping.setType("Charging");
+        newCategoryMapping.setIsAvtive(true);
+        categoryService.addNewCategory(newCategoryMapping);
+        ItemMapping itemMapping = new ItemMapping();
+        itemMapping.setCity("Székesfehérvár");
+        itemMapping.setCategoryId(1);
+        itemMapping.setAccountId(1);
+        itemMapping.setCharging(new BigDecimal(0));
+        itemMapping.setCrediting(new BigDecimal(55));
+        Item testItem = itemService.createNewItem(itemMapping);
+        ItemMapping itemMapping2 = new ItemMapping();
+        itemMapping2.setCity("Székesfehérvár");
+        itemMapping2.setCategoryId(1);
+        itemMapping2.setAccountId(1);
+        itemMapping2.setCharging(new BigDecimal(0));
+        itemMapping2.setCrediting(new BigDecimal(155));
+        Item testItem2 = itemService.createNewItem(itemMapping2);
+        String actualDate = "2020-02-20";
+        ItemMapping itemMappingUpdate = new ItemMapping();
+        itemMappingUpdate.setActualDate(LocalDate.parse(actualDate));
+        itemMappingUpdate.setAccountId(1);
+        itemMappingUpdate.setPlace("Home");
+        itemMappingUpdate.setCity("Peking");
+        itemMappingUpdate.setCategoryId(1);
+        itemMappingUpdate.setCharging(new BigDecimal(0));
+        itemMappingUpdate.setCrediting(new BigDecimal(55));
+        itemMappingUpdate.setComment("nothing");
+        itemService.updateItem(itemMappingUpdate, 2);
+        Item foundItem = itemService.getItemById(2);
+        Assert.assertEquals("Peking", foundItem.getCity());
     }
 
 }
