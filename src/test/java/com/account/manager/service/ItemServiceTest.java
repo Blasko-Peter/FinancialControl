@@ -280,4 +280,24 @@ public class ItemServiceTest {
         Assert.assertNotNull(itemService.getItemById(1));
     }
 
+    @Test
+    public void deleteItemByIdTest(){
+        AccountMapping accountMapping = new AccountMapping();
+        accountMapping.setName("Test Account 10");
+        accountService.addNewAccount(accountMapping);
+        CategoryMapping newCategoryMapping = new CategoryMapping();
+        newCategoryMapping.setName("Test Category 10");
+        newCategoryMapping.setType("Charging");
+        newCategoryMapping.setIsAvtive(true);
+        categoryService.addNewCategory(newCategoryMapping);
+        ItemMapping itemMapping = new ItemMapping();
+        itemMapping.setCategoryId(1);
+        itemMapping.setAccountId(1);
+        itemMapping.setCharging(new BigDecimal(0));
+        itemMapping.setCrediting(new BigDecimal(55));
+        Item testItem = itemService.createNewItem(itemMapping);
+        itemService.deleteItemById(1);
+        Assert.assertNull(itemService.getItemById(1));
+    }
+
 }

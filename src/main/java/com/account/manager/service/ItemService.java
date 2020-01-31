@@ -277,4 +277,8 @@ public class ItemService {
         return itemRepository.findById(id);
     }
 
+    public void deleteItemById(long id){
+        itemRepository.deleteById(id);
+    }
+
 }
