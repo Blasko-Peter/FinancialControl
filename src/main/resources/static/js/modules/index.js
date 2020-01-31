@@ -108,4 +108,15 @@ function deleteRow(){
     };
 }
 
+function editRow(){
+    let editButtons = document.getElementsByClassName("edit-button");
+    for(let editButton of editButtons){
+        editButton.addEventListener("click", function() {
+        let id = editButton.getAttribute("id");
+        window.location.href = 'http://localhost:8000/edit/' + id;
+        });
+    }
+}
+
 deleteRow();
+editRow();
