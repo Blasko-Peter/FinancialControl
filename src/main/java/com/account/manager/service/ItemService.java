@@ -254,5 +254,14 @@ public class ItemService {
         return types;
     }
 
+    public List<String> listOfMonth(){
+        List<String> months = new ArrayList<>();
+        for(int i = 1; i < 13; i++){
+            String month = String.valueOf(Months.fromId(i));
+            months.add(month);
+        }
+        return months;
+    }
+
 
 }
