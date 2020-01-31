@@ -1,9 +1,6 @@
 package com.account.manager.service;
 
-import com.account.manager.model.Category;
-import com.account.manager.model.Item;
-import com.account.manager.model.Months;
-import com.account.manager.model.Types;
+import com.account.manager.model.*;
 import com.account.manager.model.mapping.ItemMapping;
 import com.account.manager.repository.ItemRepository;
 import org.apache.poi.ss.usermodel.Row;
@@ -45,6 +42,7 @@ public class ItemService {
 
     public Item createNewItem(ItemMapping itemMapping){
         Item newItem = createNewItemFromItemMapping(itemMapping);
+        System.out.println(newItem.getId());
         saveNewItem(newItem);
         return newItem;
     }
@@ -98,6 +96,7 @@ public class ItemService {
         Item newItem = new Item();
         newItem.setActualDate(itemMapping.getActualDate());
         newItem.setAccount(accountService.getAccountById(itemMapping.getAccountId()));
+        Account account = accountService.accountFindById(itemMapping.getAccountId());
         newItem.setPlace(itemMapping.getPlace());
         newItem.setCity(itemMapping.getCity());
         newItem.setCategory(categoryService.getCategoryById(itemMapping.getCategoryId()));

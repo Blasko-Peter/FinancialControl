@@ -27,13 +27,6 @@ public class AccountService {
         return accountFindById(id);
     }
 
-    //public void addNewItemToAccount(Item item){
-    //    Account account = item.getAccount();
-    //    addItemToAccountItems(account, item);
-    //    addValueOfItemToAccountBalance(account, item);
-    //    accountSave(account);
-    //}
-
     public void addNewAccount(AccountMapping accountMapping){
         items = new ArrayList<>();
         BigDecimal newBigdecimal = new BigDecimal(0.0);
@@ -54,29 +47,18 @@ public class AccountService {
     }
 
     public void loadUpItemsOfAccounts() {
-        items = new ArrayList<>();
-        accounts = new ArrayList<>();
-        accounts = accountFindAll();
+        List<Account> accounts = accountFindAll();
         for(Account account : accounts){
-            BigDecimal bigdecimal = new BigDecimal(0);
-            account.setActualBalance(bigdecimal);
-            account.setItems(items);
+            BigDecimal bd = new BigDecimal(0);
+            account.setActualBalance(bd);
             List<Item> items = itemService.itemFindAllByAccountId(account.getId());
             for( Item item : items){
-                addItemToAccountItems(account, item);
-                addValueOfItemToAccountBalance(account, item);
+                account.getItems().add(item);
+                account.setActualBalance(account.getActualBalance().subtract(item.getCharging()));
+                account.setActualBalance(account.getActualBalance().add(item.getCrediting()));
             }
             accountSave(account);
         }
-    }
-
-    private void addItemToAccountItems(Account account, Item item){
-        account.getItems().add(item);
-    }
-
-    private void addValueOfItemToAccountBalance(Account account, Item item){
-        account.setActualBalance(account.getActualBalance().subtract(item.getCharging()));
-        account.setActualBalance(account.getActualBalance().add(item.getCrediting()));
     }
 
     public Account accountFindById(long id){

@@ -20,19 +20,19 @@ public class Item {
     private long id;
     private LocalDate actualDate;
     @ManyToOne
-    @JoinColumn(name = "accountId")
+    @JoinColumn(name = "accountId", nullable = false)
     private Account account;
     private String place;
     private String city;
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
     private BigDecimal charging;
     private BigDecimal crediting;
     private String comment;
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(long newId) {

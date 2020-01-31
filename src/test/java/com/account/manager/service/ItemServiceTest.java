@@ -4,7 +4,6 @@ import com.account.manager.model.Item;
 import com.account.manager.model.mapping.AccountMapping;
 import com.account.manager.model.mapping.CategoryMapping;
 import com.account.manager.model.mapping.ItemMapping;
-import com.account.manager.repository.ItemRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
