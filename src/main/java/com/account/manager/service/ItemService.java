@@ -281,4 +281,17 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
+    public void updateItem(ItemMapping itemMapping, long id){
+        Item updateItem = itemRepository.findById(id);
+        updateItem.setActualDate(itemMapping.getActualDate());
+        updateItem.setAccount(accountService.accountFindById(itemMapping.getAccountId()));
+        updateItem.setPlace(itemMapping.getPlace());
+        updateItem.setCity(itemMapping.getCity());
+        updateItem.setCategory(categoryService.categoryFindById(itemMapping.getCategoryId()));
+        updateItem.setCharging(itemMapping.getCharging());
+        updateItem.setCrediting(itemMapping.getCrediting());
+        updateItem.setComment(itemMapping.getComment());
+        saveNewItem(updateItem);
+    }
+
 }

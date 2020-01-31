@@ -79,7 +79,7 @@ public class AccountService {
         account.setActualBalance(account.getActualBalance().add(item.getCrediting()));
     }
 
-    private Account accountFindById(long id){
+    public Account accountFindById(long id){
         return accountRepository.findById(id);
     }
 

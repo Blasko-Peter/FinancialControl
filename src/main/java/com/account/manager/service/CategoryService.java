@@ -24,7 +24,7 @@ public class CategoryService {
         return categoryFindById(id);
     }
 
-    private Category categoryFindById(long id){
+    public Category categoryFindById(long id){
         return categoryRepository.findById(id);
     }
 
