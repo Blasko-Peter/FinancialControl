@@ -3,6 +3,7 @@ package com.account.manager.service;
 import com.account.manager.model.Category;
 import com.account.manager.model.Item;
 import com.account.manager.model.Months;
+import com.account.manager.model.Types;
 import com.account.manager.model.mapping.ItemMapping;
 import com.account.manager.repository.ItemRepository;
 import org.apache.poi.ss.usermodel.Row;
@@ -242,5 +243,16 @@ public class ItemService {
         }
         return cashFlowData;
     }
+
+    public List<String> getTypeList(){
+        List<String> types = new ArrayList<>();
+        for(int i = 0; i < 2; i++){
+            String key = "";
+            key += Types.fromId(i);
+            types.add(key);
+        }
+        return types;
+    }
+
 
 }
