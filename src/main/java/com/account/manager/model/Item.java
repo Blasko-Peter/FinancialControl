@@ -20,12 +20,12 @@ public class Item {
     private long id;
     private LocalDate actualDate;
     @ManyToOne
-    @JoinColumn(name = "accountId", nullable = true)
+    @JoinColumn(name = "accountId")
     private Account account;
     private String place;
     private String city;
     @ManyToOne
-    @JoinColumn(name = "categoryId", nullable = false)
+    @JoinColumn(name = "categoryId")
     private Category category;
     private BigDecimal charging;
     private BigDecimal crediting;

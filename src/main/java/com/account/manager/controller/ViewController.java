@@ -109,4 +109,9 @@ public class ViewController {
         return "redirect:/";
     }
 
+    @GetMapping(value = "/add-new-account")
+    public String addNewAccount(){
+        return "newAccount";
+    }
+
 }
