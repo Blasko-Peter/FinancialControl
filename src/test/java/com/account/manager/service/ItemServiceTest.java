@@ -1,7 +1,10 @@
 package com.account.manager.service;
 
 import com.account.manager.model.Item;
+import com.account.manager.model.mapping.AccountMapping;
+import com.account.manager.model.mapping.CategoryMapping;
 import com.account.manager.model.mapping.ItemMapping;
+import com.account.manager.repository.ItemRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +24,12 @@ public class ItemServiceTest {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Test
     public void createNewItemTest(){
@@ -250,6 +259,25 @@ public class ItemServiceTest {
         List<Integer> years = itemService.listOfYear();
         Integer testYear = 2035;
         Assert.assertEquals(testYear, years.get(19));
+    }
+
+    @Test
+    public void getItemByIdTest(){
+        AccountMapping accountMapping = new AccountMapping();
+        accountMapping.setName("Test Account 10");
+        accountService.addNewAccount(accountMapping);
+        CategoryMapping newCategoryMapping = new CategoryMapping();
+        newCategoryMapping.setName("Test Category 10");
+        newCategoryMapping.setType("Charging");
+        newCategoryMapping.setIsAvtive(true);
+        categoryService.addNewCategory(newCategoryMapping);
+        ItemMapping itemMapping = new ItemMapping();
+        itemMapping.setCategoryId(1);
+        itemMapping.setAccountId(1);
+        itemMapping.setCharging(new BigDecimal(0));
+        itemMapping.setCrediting(new BigDecimal(55));
+        Item testItem = itemService.createNewItem(itemMapping);
+        Assert.assertNotNull(itemService.getItemById(1));
     }
 
 }
