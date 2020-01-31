@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -121,65 +122,65 @@ public class ItemServiceTest {
 
     @Test
     public void createCumulatedBalanceMapTest_1(){
-        List<BigDecimal> testValues = new ArrayList<>();
+        Map<String, BigDecimal> testMonthlyBalanceMap = new HashMap<>();
         BigDecimal jan = new BigDecimal(1);
-        testValues.add(jan);
+        testMonthlyBalanceMap.put("januaryMB", jan);
         BigDecimal feb = new BigDecimal(2);
-        testValues.add(feb);
+        testMonthlyBalanceMap.put("februaryMB", feb);
         BigDecimal mar = new BigDecimal(3);
-        testValues.add(mar);
+        testMonthlyBalanceMap.put("marchMB", mar);
         BigDecimal apr = new BigDecimal(4);
-        testValues.add(apr);
+        testMonthlyBalanceMap.put("aprilMB", apr);
         BigDecimal may = new BigDecimal(5);
-        testValues.add(may);
+        testMonthlyBalanceMap.put("mayMB", may);
         BigDecimal jun = new BigDecimal(6);
-        testValues.add(jun);
+        testMonthlyBalanceMap.put("juneMB", jun);
         BigDecimal jul = new BigDecimal(7);
-        testValues.add(jul);
+        testMonthlyBalanceMap.put("julyMB", jul);
         BigDecimal aug = new BigDecimal(8);
-        testValues.add(aug);
+        testMonthlyBalanceMap.put("augustMB", aug);
         BigDecimal sep = new BigDecimal(9);
-        testValues.add(sep);
+        testMonthlyBalanceMap.put("septemberMB", sep);
         BigDecimal oct = new BigDecimal(10);
-        testValues.add(oct);
+        testMonthlyBalanceMap.put("octoberMB", oct);
         BigDecimal nov = new BigDecimal(11);
-        testValues.add(nov);
+        testMonthlyBalanceMap.put("novemberMB", nov);
         BigDecimal dec = new BigDecimal(12);
-        testValues.add(dec);
-        Map<String, BigDecimal> testMonthlyBalanceMap = itemService.createCumulatedBalanceMap(testValues, "CB");
-        Assert.assertTrue(testMonthlyBalanceMap.size() == 12);
+        testMonthlyBalanceMap.put("decemberMB", dec);
+        Map<String, BigDecimal> testCumulBalanceMap = itemService.createCumulatedBalanceMap(testMonthlyBalanceMap);
+        Assert.assertTrue(testCumulBalanceMap.size() == 12);
     }
 
     @Test
     public void createCumulatedBalanceMapTest_2(){
-        List<BigDecimal> testValues = new ArrayList<>();
+        Map<String, BigDecimal> testMonthlyBalanceMap = new HashMap<>();
         BigDecimal jan = new BigDecimal(1);
-        testValues.add(jan);
+        testMonthlyBalanceMap.put("januaryMB", jan);
         BigDecimal feb = new BigDecimal(2);
-        testValues.add(feb);
+        testMonthlyBalanceMap.put("februaryMB", feb);
         BigDecimal mar = new BigDecimal(3);
-        testValues.add(mar);
+        testMonthlyBalanceMap.put("marchMB", mar);
         BigDecimal apr = new BigDecimal(4);
-        testValues.add(apr);
+        testMonthlyBalanceMap.put("aprilMB", apr);
         BigDecimal may = new BigDecimal(5);
-        testValues.add(may);
+        testMonthlyBalanceMap.put("mayMB", may);
         BigDecimal jun = new BigDecimal(6);
-        testValues.add(jun);
+        testMonthlyBalanceMap.put("juneMB", jun);
         BigDecimal jul = new BigDecimal(7);
-        testValues.add(jul);
+        testMonthlyBalanceMap.put("julyMB", jul);
         BigDecimal aug = new BigDecimal(8);
-        testValues.add(aug);
+        testMonthlyBalanceMap.put("augustMB", aug);
         BigDecimal sep = new BigDecimal(9);
-        testValues.add(sep);
+        testMonthlyBalanceMap.put("septemberMB", sep);
         BigDecimal oct = new BigDecimal(10);
-        testValues.add(oct);
+        testMonthlyBalanceMap.put("octoberMB", oct);
         BigDecimal nov = new BigDecimal(11);
-        testValues.add(nov);
+        testMonthlyBalanceMap.put("novemberMB", nov);
         BigDecimal dec = new BigDecimal(12);
-        testValues.add(dec);
-        Map<String, BigDecimal> testMonthlyBalanceMap = itemService.createCumulatedBalanceMap(testValues, "CB");
+        testMonthlyBalanceMap.put("decemberMB", dec);
+        Map<String, BigDecimal> testCumulBalanceMap = itemService.createCumulatedBalanceMap(testMonthlyBalanceMap);
         BigDecimal testValue = new BigDecimal(78);
-        Assert.assertEquals(testValue, testMonthlyBalanceMap.get("decemberCB"));
+        Assert.assertEquals(testValue, testCumulBalanceMap.get("decemberCB"));
     }
 
     @Test
