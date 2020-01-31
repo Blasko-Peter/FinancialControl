@@ -114,4 +114,10 @@ public class ViewController {
         return "newAccount";
     }
 
+    @GetMapping(value = "/add-new-category")
+    public String addNewCategory(Model model){
+        model.addAttribute("types", types);
+        return "newCategory";
+    }
+
 }
