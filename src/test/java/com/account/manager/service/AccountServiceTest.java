@@ -42,26 +42,30 @@ public class AccountServiceTest {
 
     @Test
     public void loadUpItemsOfAccountsTest(){
+        AccountMapping accountMapping = new AccountMapping();
+        accountMapping.setName("Test Account 2");
+        accountService.addNewAccount(accountMapping);
+        Account testAccount = accountRepository.findFirstByName("Test Account 2");
         Category newCategory = new Category();
         newCategory.setName("Test Category 1");
         newCategory.setType("Crediting");
         newCategory.setIsActive(true);
         categoryRepository.save(newCategory);
         ItemMapping newItemMapping1 = new ItemMapping();
-        newItemMapping1.setAccountId(1);
+        newItemMapping1.setAccountId(testAccount.getId());
         newItemMapping1.setCategoryId(1);
         newItemMapping1.setCharging(new BigDecimal(5));
         newItemMapping1.setCrediting(new BigDecimal(7));
         itemService.createNewItem(newItemMapping1);
         ItemMapping newItemMapping2 = new ItemMapping();
-        newItemMapping2.setAccountId(1);
+        newItemMapping2.setAccountId(testAccount.getId());
         newItemMapping2.setCategoryId(1);
         newItemMapping2.setCharging(new BigDecimal(5));
         newItemMapping2.setCrediting(new BigDecimal(0));
         itemService.createNewItem(newItemMapping2);
         accountService.loadUpItemsOfAccounts();
         BigDecimal testValue = new BigDecimal(-3);
-        Assert.assertTrue(accountRepository.findById(1).getActualBalance().compareTo(testValue) == 0);
+        Assert.assertTrue(testValue.compareTo(accountRepository.findFirstByName("Test Account 2").getActualBalance()) == 0);
     }
 
     @Test

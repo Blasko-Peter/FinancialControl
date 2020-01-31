@@ -53,7 +53,6 @@ public class AccountService {
             account.setActualBalance(bd);
             List<Item> items = itemService.itemFindAllByAccountId(account.getId());
             for( Item item : items){
-                account.getItems().add(item);
                 account.setActualBalance(account.getActualBalance().subtract(item.getCharging()));
                 account.setActualBalance(account.getActualBalance().add(item.getCrediting()));
             }
