@@ -190,4 +190,22 @@ public class ItemServiceTest {
         Assert.assertEquals("CLOSING BALANCE", testCashFlowData.get(testCashFlowData.size() - 1).get(0));
     }
 
+    @Test
+    public void getTypeListTest_1(){
+        List<String> types = itemService.getTypeList();
+        Assert.assertEquals(2, types.size());
+    }
+
+    @Test
+    public void getTypeListTest_2(){
+        List<String> types = itemService.getTypeList();
+        Assert.assertEquals("Charging", types.get(0));
+    }
+
+    @Test
+    public void getTypeListTest_3(){
+        List<String> types = itemService.getTypeList();
+        Assert.assertEquals("Crediting", types.get(1));
+    }
+
 }
