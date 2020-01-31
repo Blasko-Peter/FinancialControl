@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -118,6 +119,22 @@ public class ViewController {
     public String addNewCategory(Model model){
         model.addAttribute("types", types);
         return "newCategory";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String editItem(@PathVariable("id") Long id, Model model){
+        Item actualItem = itemService.getItemById(id);
+        categories = new ArrayList<>();
+        categories = categoryService.getAllCategories(true);
+        accounts = new ArrayList<>();
+        accounts = accountService.accountFindAll();
+        types = new ArrayList<>();
+        types = itemService.getTypeList();
+        model.addAttribute("item", actualItem);
+        model.addAttribute("categories", categories);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("types", types);
+        return "edit";
     }
 
 }
