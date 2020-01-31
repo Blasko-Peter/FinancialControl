@@ -273,5 +273,8 @@ public class ItemService {
         return years;
     }
 
+    public Item getItemById(long id){
+        return itemRepository.findById(id);
+    }
 
 }
