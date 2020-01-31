@@ -24,13 +24,13 @@ public class ViewController {
     private int actualYear = LocalDate.now().getYear();
     private int actualMonth = LocalDate.now().getMonth().getValue();
     private Map<String, BigDecimal> monthlyBalanceMap;
-
-    private List<Item> itemsOfActualMonth;
-    private List<Account> accounts;
     private Map<String, BigDecimal> cumulatedBalanceMap;
-    private BigDecimal cumulatedValue;
-    private List<String> types;
+    private List<Account> accounts;
     private List<Category> categories;
+    private List<Item> itemsOfActualMonth;
+    private List<String> types;
+    private List<List<String>> cashFlowdata;
+    private BigDecimal cumulatedValue;
 
     @Autowired
     private AccountService accountService;
@@ -43,7 +43,45 @@ public class ViewController {
 
     @GetMapping(value = "/")
     public String index(Model model) {
-
+        accountService.loadUpItemsOfAccounts();
+        monthlyBalanceMap = new HashMap<>();
+        monthlyBalanceMap = itemService.createMonthlyBalanceMap(actualYear, "MB");
+        cumulatedBalanceMap = new HashMap<>();
+        cumulatedBalanceMap = itemService.createCumulatedBalanceMap(monthlyBalanceMap);
+        accounts = new ArrayList<>();
+        accounts = accountService.accountFindAll();
+        categories = new ArrayList<>();
+        categories = categoryService.getAllCategories(true);
+        itemsOfActualMonth = new ArrayList<>();
+        itemsOfActualMonth = itemService.getActualMonthlyItems(actualYear, actualMonth);
+        types = new ArrayList<>();
+        types = itemService.getTypeList();
+        cashFlowdata = new ArrayList<>();
+        cashFlowdata = itemService.createCashFlowData(actualYear);
+        cumulatedValue = new BigDecimal(0);
+        cumulatedValue = cumulatedValue.add(cumulatedBalanceMap.get("decemberCB"));
+        model.addAttribute("actualYear", actualYear);
+        model.addAttribute("actualMonth", actualMonth);
+        model.addAttribute("monthlyBalance", monthlyBalanceMap);
+        model.addAttribute("cumulatedBalance", cumulatedBalanceMap);
+        if(accounts.isEmpty()){
+            model.addAttribute("accounts", "No data");
+        } else {
+            model.addAttribute("accounts", accounts);
+        }
+        if(categories.isEmpty()){
+            model.addAttribute("categories", "No data");
+        } else {
+            model.addAttribute("categories", categories);
+        }
+        if(itemsOfActualMonth.isEmpty()){
+            model.addAttribute("items", "No data");
+        } else {
+            model.addAttribute("items", itemsOfActualMonth);
+        }
+        model.addAttribute("types", types);
+        model.addAttribute("cashFlowDataRows", cashFlowdata);
+        model.addAttribute("cumulatedValue", cumulatedValue);
         return "index";
     }
 
