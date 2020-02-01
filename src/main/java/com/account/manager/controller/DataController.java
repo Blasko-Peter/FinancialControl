@@ -58,8 +58,7 @@ public class DataController {
 
     @PostMapping(value = "/edit-account/{id}")
     public String editAccount(@RequestBody AccountMapping accountMapping, @PathVariable("id") Long id){
-        System.out.println(id);
-        System.out.println(accountMapping.getName());
+        accountService.updateAccount(accountMapping, id);
         return "Success";
     }
 

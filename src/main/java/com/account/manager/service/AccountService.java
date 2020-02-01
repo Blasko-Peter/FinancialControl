@@ -72,4 +72,8 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    public void updateAccount(AccountMapping accountMapping, long AccountId){
+
+    }
+
 }
