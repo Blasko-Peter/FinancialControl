@@ -161,4 +161,12 @@ public class ViewController {
         return "redirect:/";
     }
 
+    @GetMapping(value = "/add-new-item")
+    public String addNewItem(Model model){
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("categories", categories);
+        model.addAttribute("types", types);
+        return "newItem";
+    }
+
 }
