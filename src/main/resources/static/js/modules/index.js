@@ -119,7 +119,7 @@ function editRow(){
 }
 
 function openAccount(id){
-    console.log(id)
+    window.location.href = 'http://localhost:8000/account/' + id;
 }
 
 deleteRow();
