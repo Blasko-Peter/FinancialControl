@@ -64,6 +64,10 @@ function editItem(){
     }
 }
 
+function cancel(){
+    window.location.href = 'http://localhost:8000/';
+}
+
 function showDangerModal(){
     $('#dangerModal').modal('show');
 }
