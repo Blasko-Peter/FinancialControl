@@ -1,4 +1,4 @@
-package com.account.manager.model;
+package com.account.manager.model.enums;
 
 public enum Types {
 
