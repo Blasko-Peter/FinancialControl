@@ -118,5 +118,9 @@ function editRow(){
     }
 }
 
+function openAccount(id){
+    console.log(id)
+}
+
 deleteRow();
 editRow();
