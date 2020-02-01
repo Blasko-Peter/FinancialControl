@@ -169,4 +169,11 @@ public class ViewController {
         return "newItem";
     }
 
+    @GetMapping(value = "/account/{id}")
+    public String editAccount(@PathVariable("id") Long id, Model model){
+        Account actualAccount = accountService.accountFindById(id);
+        model.addAttribute("account", actualAccount);
+        return "account";
+    }
+
 }
