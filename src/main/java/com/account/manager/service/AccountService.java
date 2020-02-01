@@ -72,8 +72,10 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public void updateAccount(AccountMapping accountMapping, long AccountId){
-
+    public void updateAccount(AccountMapping accountMapping, long accountId){
+        Account account = accountFindById(accountId);
+        account.setName(accountMapping.getName());
+        accountSave(account);
     }
 
 }
