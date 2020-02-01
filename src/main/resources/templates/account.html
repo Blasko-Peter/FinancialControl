@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Financia Control</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.min.css" rel="stylesheet">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Our styles -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container bp-container">
+    <div class="row">
+        <div class="card col-4 bp-w100">
+            <div class="row">
+                <img src="https://mdbootstrap.com/img/Photos/Others/images/49.jpg" class="img-fluid bp-bottom8" alt="">
+                <div class="text-center bp-100">
+                    <div class="col-md-12">
+                        <div class="md-form mb-0">
+                            <input type="text" id="name" name="name" class="form-control" th:value="${account.name}">
+                            <label for="name" class="">Name</label>
+                        </div>
+                    </div>
+                    <h2 th:text="${account.actualBalance}">Account actualBalance</h2>
+                    <div class="text-center">
+                        <a class="btn mv-blue" onclick="sendEditAccount()">Edit</a>
+                        <a class="btn mv-blue" onclick="cancel()">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="/js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="/js/mdb.min.js"></script>
+<!-- Own JavaScript -->
+<script type="text/javascript" src="/js/modules/editAccount.js"></script>
+</body>
+</html>

@@ -74,3 +74,11 @@ br {
 .bp-margin {
     margin: 0 15px;
 }
+
+.bp-100{
+    width: 100%;
+}
+
+.bp-bottom8{
+    margin-bottom: 8px;
+}
