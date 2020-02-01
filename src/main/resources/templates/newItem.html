@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Financia Control</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Our styles -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container bp-container">
+    <div class="row">
+        <div class="card bp-w100">
+            <section id="addItem">
+                <br>
+                <h2 class="mb-4 font-weight-bold text-center">Add new item</h2>
+                <div class="row">
+                    <div class="col-md-12 mb-md-0 mb-5">
+                        <form id="contact-form" name="contact-form" action="mail.php" method="POST">
+                            <div class="row bp-margin">
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="date" id="actualDate" name="actualDate" class="form-control" value="">
+                                        <label id="actualDateLabel" for="actualDate" class="active typelabel">Actual date</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <select id="accountId" type="text" name="accountId" class="form-control browser-default custom-select bp-select">
+                                            <option selected>Open this select menu</option>
+                                            <div th:each="account: ${accounts}">
+                                                <option th:id="${account.id}" th:text="${account.name}">Account</option>
+                                            </div>
+                                        </select>
+                                        <label for="accountId" class="active typelabel">Account</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="text" id="place" name="place" class="form-control">
+                                        <label for="place" class="">Place</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <input type="text" id="city" name="city" class="form-control">
+                                        <label for="city" class="">City</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <select id="type" type="text" name="type" class="form-control browser-default custom-select bp-select">
+                                            <option selected>Open this select menu</option>
+                                            <div th:each="type: ${types}">
+                                                <option th:text="${type}">One</option>
+                                            </div>
+                                        </select>
+                                        <label for="type" class="active typelabel">Type</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="md-form mb-0">
+                                        <select id="categoryId" type="text" name="category" class="form-control browser-default custom-select bp-select">
+                                            <option selected>Open this select menu</option>
+                                            <div th:each="category: ${categories}">
+                                                <option th:id="${category.id}" th:text="${category.name}">Category</option>
+                                            </div>
+                                        </select>
+                                        <label for="categoryId" class="active typelabel">Category</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="md-form mb-0">
+                                        <input type="text" id="value" name="value" class="form-control">
+                                        <label for="value" class="">Value</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row bp-margin">
+                                <div class="col-md-12">
+                                    <div class="md-form">
+                                        <textarea type="text" id="comment" name="comment" rows="2" class="form-control md-textarea"></textarea>
+                                        <label for="comment">Your comment</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="text-center">
+                            <a class="btn mv-blue" onclick="sendNewItem()">Add</a>
+                            <a class="btn mv-blue" onclick="cancel()">Cancel</a>
+                        </div>
+                        <div class="status"></div>
+                    </div>
+                </div>
+                <br>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- Danger Modal -->
+<div class="modal fade" id="dangerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-notify modal-danger" role="document">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header mv-red">
+                <p class="heading lead">Danger</p>
+            </div>
+            <!-- Header End -->
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle fa-4x mb-3 animated rotateIn"></i>
+                    <p id="danger-modal-message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit iusto nulla aperiam blanditiis
+                        ad consequatur in dolores culpa, dignissimos, eius non possimus fugiat. Esse ratione fuga, enim,
+                        ab officiis totam.</p>
+                </div>
+            </div>
+            <!-- Body End -->
+            <!-- Footer -->
+            <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-danger" onclick="closeDangerModal()">OK</a>
+            </div>
+            <!-- Footer End -->
+        </div>
+    </div>
+</div>
+<!-- Danger Modal End -->
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/mdb.min.js"></script>
+<!-- Own JavaScript -->
+<script type="text/javascript" src="js/modules/item.js"></script>
+</body>
+</html>
